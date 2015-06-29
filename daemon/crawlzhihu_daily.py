@@ -129,7 +129,7 @@ def GetStory(id):
             line = line.replace('&hellip;', '...')
             if line.find('<img class="content-image"') != -1:
                 tempList = line.split('"')
-                line = '<img src="%s" />' % tempList[3]
+                line = '<img src="%s" />' % tempList[3]  # 此处里面最好用单引号，可以方便json解析
             answer += "%s\n" % line
             #print line
         elif flagAnswer == 1 and line == '</div>':
@@ -178,7 +178,7 @@ def GetIndex():
         print 'error'
         sys.exit()
     dictContent = result['stories'][0]
-    endTime = result['timestamp'] - 30 * 60    # 延迟半小时
+    endTime = result['timestamp'] + 30 * 60    # 延迟半小时
     existRet = QueryDatabase(dictContent['id'])
     if 0 != existRet['ret'] or 0 != existRet['num']:
         logging.error("%d is already exist." % dictContent['id'])
