@@ -1,6 +1,6 @@
 #coding=UTF-8
 from django.http import HttpResponse
-#import json
+import json
 import simplejson
 #from django.utils import simplejson
 
@@ -24,7 +24,7 @@ def staff(request):
     #print request.GET['id']
     #return HttpResponse(json.dumps(result))
     #return HttpResponse(json.dumps(result),content_type="application/json")
-    return HttpResponse(simplejson.dumps(result, ensure_ascii=False))
+    return HttpResponse(json.dumps(result, ensure_ascii=False), content_type="application/json; charset=utf-8")
     #return HttpResponse(simplejson.dumps(result, ensure_ascii=False))
 
 # Create your views here.
