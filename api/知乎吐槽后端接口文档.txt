@@ -1,0 +1,98 @@
+## 接口1 ##
+
+http://104.128.85.9:8001/api/gethomelist
+
+#### 说明 ####
+
+GET 方法，返回值为json格式。
+进入app首页调用这个接口，获取一个从此刻开始的近10天的list数据。（一天一条）
+无入参。
+
+#### 返回字段 ####
+"ret" : int类型，0 表示成功，非0表示失败，必须先判断这个字段是否为0;
+"err" : string类型，错误描述，当ret不为0时，这个字段解释失败的原因;
+"number" : 表示此次返回了多少条数据;
+"stories" : list类型，其中每个元素是一个dict类型，dict中的字段为：
+     { "title":标题; "id":这条数据的id; "images":这条数据的背景图; 
+       "display_date":可以显示的日期; "timestamp":这条数据对应的时间戳
+     }
+
+
+## 接口2 ##
+
+http://104.128.85.9:8001/api/getnextlist?timestamp=1434666598
+
+#### 说明 ####
+
+GET 方法，返回值为json格式。
+下拉刷新使用的接口。
+参数: timestamp, 值为当前显示的最后一条数据中的timestamp值。
+
+#### 返回字段 ####
+
+和接口1 - gethomelist 完全一样。
+
+
+## 接口3 ##
+
+http://104.128.85.9:8001/api/getstorydetail?id=4827840
+
+#### 说明 ####
+
+GET 方法，返回值为json格式。
+获取单条数据详情。
+参数：id, 接口1/2 中每条数据对应的id字段值。
+
+#### 返回字段 ####
+
+"ret" : int类型，0 表示成功，非0表示失败，必须先判断这个字段是否为0;
+"err" : string类型，错误描述，当ret不为0时，这个字段解释失败的原因;
+"question_num" : 问题的数量;
+"stories" : list，每个元素一个dict（也即一个问题），包括的字段如下:
+    {"question_title":问题标题; "viewmore": 原文地址; "answer_num":此问题的回答个数;
+      "answers": list，每个元素是一个答案，每个元素是一个dict类型:
+        {"author":回答者; "bio":回答者的个性签名; "avatar": 回答者的头像;
+          "answer":答案。
+        }
+    }
+一个getstorydetail示例如下：
+{
+"question_num": 1, 
+"stories": 
+ [
+  {
+   "question_title": "单身究竟有多好？", 
+   "viewmore": "http://www.zhihu.com/question/29971398", 
+   "answer_num": 4, 
+   "answers": 
+    [
+     {
+      "answer": "有自主支配的思维、时间和金钱，若支配得好就会活得洒脱，支配得不好就会越发寂寞。\n", 
+      "bio": "斯人若彩虹，遇上方知有！", 
+      "avatar": "http://pic1.zhimg.com/f25a24549ba2e48230c765eac36bcf84_is.jpg", 
+      "author": "梧桐"
+     }, 
+     {
+      "answer": "单身有多好，谈了恋爱才知道。\n", 
+      "bio": "工地搬砖狗", 
+      "avatar": "http://pic2.zhimg.com/e64c67e7cafeac24ddf35204922c5165_is.jpg", 
+      "author": "陈哮天"
+     }, 
+     {
+      "answer": "手机有没有电都没关系。\n", 
+       "bio": "原来过的很快乐 只我一人未发觉", 
+       "avatar": "http://pic3.zhimg.com/f7411cf75f9b04b695e4cfe16f9774ca_is.jpg", 
+       "author": "漂泊中忘却"
+     }, 
+     {
+      "answer": "你们不要强行回答了！绞尽脑汁想出几条所谓的好真的无愧于心吗。\n", 
+      "bio": "脾气不好，别逗我笑", 
+      "avatar": "http://pic2.zhimg.com/c86b84245_is.jpg", 
+      "author": "大momo"
+     }
+    ]
+   }
+  ], 
+"err": "", 
+"ret": 0
+}
