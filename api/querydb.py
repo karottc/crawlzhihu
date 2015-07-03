@@ -25,6 +25,7 @@ class QueryDB:
 
     def __del__(self):
         self.db.close()
+        logging.shutdown()
 
     def QueryIndex(self, timestamp=0):
         if 0 == timestamp:
@@ -68,13 +69,14 @@ class QueryDB:
                 # 这个是为了处理{"answer": "<img src="http://pic4.zhimg.com/49c977e6c68beccfe8f594258b397067_b.jpg" 这种情况
                 # 这种会和json的属性双引号冲突
                 pos = strTemp.find('img src')
-                endPos = strTemp.find('>')
                 if pos != -1:
                     str1 = strTemp[0:pos]
-                    str2 = strTemp[pos:endPos+1]
-                    str3 = strTemp[endPos+1:]
-                    str2 = str2.replace('"', "'")
-                    strTemp = str1 + str2 + str3
+                    str2 = strTemp[pos:]
+                    endPos = str2.find('>')
+                    str3 = str2[0:endPos]    # 这一段是<img src.....>
+                    str4 = str2[endPos:]
+                    str3 = str3.replace('"', "'")
+                    strTemp = str1 + str3 + str4
                 dictStory['answers'] = json.loads(strTemp, strict=False)
                 #dictStory['answer'] = row[3]
                 dictStory['viewmore'] = row[4]
@@ -86,4 +88,4 @@ class QueryDB:
             return []
 
 #gt = QueryDB()
-#print gt.QueryStory(4769094)
+#print gt.QueryStory(4840691)

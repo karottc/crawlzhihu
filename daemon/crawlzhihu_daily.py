@@ -129,7 +129,7 @@ def GetStory(id):
             line = line.replace('&hellip;', '...')
             if line.find('<img class="content-image"') != -1:
                 tempList = line.split('"')
-                line = '<img src="%s" />' % tempList[3]  # 此处里面最好用单引号，可以方便json解析
+                line = "<img src='%s' />" % tempList[3]  # 此处里面最好用单引号，可以方便json解析
             answer += "%s\n" % line
             #print line
         elif flagAnswer == 1 and line == '</div>':
