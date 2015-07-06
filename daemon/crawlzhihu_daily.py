@@ -128,8 +128,12 @@ def GetStory(id):
             line = line.replace('</p>','')
             line = line.replace('&hellip;', '...')
             if line.find('<img class="content-image"') != -1:
-                tempList = line.split('"')
-                line = "<img src='%s' />" % tempList[3]  # 此处里面最好用单引号，可以方便json解析
+                # 知乎解析还是有没考虑到的情况, 2015.07.04 最后一个回答有两种图片格式：
+                # <img class="content-image" style="line-height: 1.5;" src="http://pic1.zhimg.com/70/4cc74a650a99d60c29016232405eb644_b.jpg" alt="" />
+                # <img class="content-image" src="http://pic2.zhimg.com/70/c7875ab94b00002bd06e9f1375203dad_b.jpg" alt="" />
+                tmpList1 = line.split('src="')
+                tmpList2 = tmpList1[1].split('"')
+                line = '<img src="%s" />' % tmpList2[0]
             answer += "%s\n" % line
             #print line
         elif flagAnswer == 1 and line == '</div>':

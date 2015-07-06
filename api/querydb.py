@@ -72,7 +72,7 @@ class QueryDB:
                 if pos != -1:
                     str1 = strTemp[0:pos]
                     str2 = strTemp[pos:]
-                    endPos = str2.find('>')
+                    endPos = str2.rfind('>')
                     str3 = str2[0:endPos]    # 这一段是<img src.....>
                     str4 = str2[endPos:]
                     str3 = str3.replace('"', "'")
@@ -88,4 +88,4 @@ class QueryDB:
             return []
 
 #gt = QueryDB()
-#print gt.QueryStory(4840691)
+#print gt.QueryStory(4842308)
