@@ -68,12 +68,23 @@ class QueryDB:
                 strTemp = row[3]
                 # 这个是为了处理{"answer": "<img src="http://pic4.zhimg.com/49c977e6c68beccfe8f594258b397067_b.jpg" 这种情况
                 # 这种会和json的属性双引号冲突
+                #print strTemp
                 pos = strTemp.find('img src')
                 if pos != -1:
                     str1 = strTemp[0:pos]
                     str2 = strTemp[pos:]
                     endPos = str2.rfind('>')
                     str3 = str2[0:endPos]    # 这一段是<img src.....>
+                    str4 = str2[endPos:]
+                    str3 = str3.replace('"', "'")
+                    strTemp = str1 + str3 + str4
+                # 还需要处理 <a href="http://w.xxxx.com"> 这种情况
+                pos = strTemp.find('<a href')
+                if pos != -1:
+                    str1 = strTemp[0:pos]
+                    str2 = strTemp[pos:]
+                    endPos = str2.rfind('>')
+                    str3 = str2[0:endPos]    # 这一段是网页超链接
                     str4 = str2[endPos:]
                     str3 = str3.replace('"', "'")
                     strTemp = str1 + str3 + str4
@@ -88,4 +99,4 @@ class QueryDB:
             return []
 
 #gt = QueryDB()
-#print gt.QueryStory(4842308)
+#print gt.QueryStory(4874948)
